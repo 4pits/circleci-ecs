@@ -1,18 +1,21 @@
 version: '2.1'
 orbs:
-  aws-ecr: circleci/aws-ecr@6.15
-  aws-ecs: circleci/aws-ecs@2.0.0
+  aws-ecs: circleci/aws-ecs@2.0
+jobs:
+  run-task:
+    docker:
+      - image: 'cimg/python:3.9.1'
+    steps:
+      - aws-ecs/run-task:
+          capacity-provider-strategy: >-
+            capacityProvider=FARGATE,weight=1
+            capacityProvider=FARGATE_SPOT,weight=1
+          cluster: $CLUSTER_NAME
+          launch-type: ''
+          security-group-ids: $SECURITY_GROUP_IDS_FETCHED
+          subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
+          task-definition: $My_Task_Def
 workflows:
-  build-and-deploy:
+  run-task:
     jobs:
-      - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL
-          region: AWS_REGION
-          repo: '${MY_APP_PREFIX}'
-          tag: '${CIRCLE_SHA1}'
-      - aws-ecs/deploy-service-update:
-          cluster-name: '${MY_APP_PREFIX}-cluster'
-          container-image-name-updates: 'container=${MY_APP_PREFIX}-service,tag=${CIRCLE_SHA1}'
-          family: '${MY_APP_PREFIX}-service'
-          requires:
-            - aws-ecr/build-and-push-image
+      - run-task
