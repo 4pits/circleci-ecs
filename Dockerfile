@@ -1,30 +1,19 @@
-FROM golang:latest as builder
+FROM ubuntu:18.04
 
-# Application working directory ( Created if it doesn't exist )
-WORKDIR /build
-# Copy all files ignoring those specified in dockerignore
-COPY . /build/
+# Install dependencies
+RUN apt-get update && \
+ apt-get -y install apache2
 
-# Installing custom packages from github
-RUN go get -d github.com/prometheus/client_golang/prometheus/promhttp
-# Execute instructions on a new layer on top of current image. Run in shell.
-RUN CGO_ENABLED=0 go build -a -installsuffix cgo --ldflags "-s -w" -o /build/main
-FROM alpine:3.9.4
+# Install apache and write hello world message
+RUN echo 'Hello World!' > /var/www/html/index.html
 
-# metadata for better organization
-LABEL app="go-helloworld"
-LABEL environment="production"
-# Set workdir on current image
-WORKDIR /app
-# Leverage a separate non-root user for the application
-RUN adduser -S -D -H -h /app appuser
-# Change to a non-root user
-USER appuser
-# Add artifact from builder stage
-COPY --from=builder /build/main /app/
-# Expose port to host
-EXPOSE 8080
-# Run software with any arguments
-ENTRYPOINT ["./main"]
+# Configure apache
+RUN echo '. /etc/apache2/envvars' > /root/run_apache.sh && \
+ echo 'mkdir -p /var/run/apache2' >> /root/run_apache.sh && \
+ echo 'mkdir -p /var/lock/apache2' >> /root/run_apache.sh && \ 
+ echo '/usr/sbin/apache2 -D FOREGROUND' >> /root/run_apache.sh && \ 
+ chmod 755 /root/run_apache.sh
 
+EXPOSE 80
 
+CMD /root/run_apache.sh
