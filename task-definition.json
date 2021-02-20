@@ -8,12 +8,9 @@
             "memoryReservation": 128,
             "portMappings": [
                 {
-                    "containerPort": 8080,
+                    "containerPort": 80,
                     "protocol": "tcp"
                 }
-            ],
-            "command": [
-                "./main"
             ],
             "essential": true
         }
