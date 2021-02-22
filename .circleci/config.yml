@@ -1,9 +1,6 @@
 version: '2.1'
 orbs:
   aws-ecs: circleci/aws-ecs@2.0
-deploy:
-    docker:
-      - image: cibuilds/aws:1.16.1  
 jobs:
   run-task:
     docker:
