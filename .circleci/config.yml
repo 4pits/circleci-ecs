@@ -16,6 +16,7 @@ jobs:
           security-group-ids: $SECURITY_GROUP_IDS_FETCHED
           subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
           task-definition: fargate-webapp-task
+          count: 4
 workflows:
   run-task:
     jobs:
