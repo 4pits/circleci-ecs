@@ -14,7 +14,7 @@ jobs:
           cluster: ecs-fargate
           security-group-ids: $SECURITY_GROUP_IDS
           subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
-          task-definition: webapp-fargate-task
+          task-definition: sample-fargate-app
 workflows:
   run-task:
     jobs:
