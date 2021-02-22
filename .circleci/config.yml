@@ -7,10 +7,10 @@ jobs:
       - image: 'cimg/python:3.9.1'
     steps:
       - aws-ecs/run-task:
-          cluster: ecs-fargate
+          cluster: $ECS_PARAM_CLUSTER_NAME
           security-group-ids: $SECURITY_GROUP_IDS
           subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
-          task-definition: fargate-task
+          task-definition: $My_Task_Def
 workflows:
   run-task:
     jobs:
