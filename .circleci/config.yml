@@ -4,8 +4,8 @@ orbs:
 jobs:
   run-task:
     docker:
-      - image: 'cibuilds/aws:2.1.27'
-      - image: 'cimg/python:3.9.1'
+      - image: cibuilds/aws:2.1.27
+      - image: cimg/python:3.9.1
     steps:
       - aws-ecs/run-task:
           capacity-provider-strategy: >-
@@ -16,12 +16,7 @@ jobs:
           launch-type: ''
           security-group-ids: $SECURITY_GROUP_IDS_FETCHED
           subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
-          task-definition: fargate-webapp-task
-      - run:
-          command: >
-            $BASH_ENV
-            export TERM=xterm
-          
+          task-definition: fargate-webapp-task          
 workflows:
   run-task:
     jobs:
