@@ -41,6 +41,8 @@ jobs:
               task-definition: fargate-webapp-task
               subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
               security-group-ids: $SECURITY_GROUP_IDS
+              assign-public-ip : ENABLED
+              count: 4
 
 workflows:
   run-task:
