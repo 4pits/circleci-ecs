@@ -15,7 +15,8 @@ jobs:
           launch-type: ''
           security-group-ids: $SECURITY_GROUP_IDS_FETCHED
           subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
-          task-definition: fargate-webapp-task          
+          task-definition: fargate-webapp-task
+          assign-public-ip : ENABLED         
 workflows:
   run-task:
     jobs:
