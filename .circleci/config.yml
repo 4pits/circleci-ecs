@@ -40,7 +40,7 @@ jobs:
               launch-type: ""
               task-definition: fargate-webapp-task
               subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
-              security-group-ids: $SECURITY_GROUP_IDS_FETCHED
+              security-group-ids: $SECURITY_GROUP_IDS
 
 workflows:
   run-task:
